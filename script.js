@@ -1,58 +1,57 @@
-// Character mappings for different styles (with uppercase support)
-const styleMappings = {
-  normal: {
-    ...createIdentityMap('abcdefghijklmnopqrstuvwxyz'),
-    ...createIdentityMap('ABCDEFGHIJKLMNOPQRSTUVWXYZ', true)
-  },
-  bold: {
-    ...mapRange('a', 'z', i => String.fromCodePoint(0x1D41A + i)), // 𝐚–𝐳
-    ...mapRange('A', 'Z', i => String.fromCodePoint(0x1D400 + i))  // 𝐀–𝐙
-  },
-  italic: {
-    ...mapRange('a', 'z', i => String.fromCodePoint(0x1D48A + i)), // 𝑎–𝑧
-    ...mapRange('A', 'Z', i => String.fromCodePoint(0x1D470 + i))  // 𝐴–𝑍
-  },
-  strikethrough: {
-    ...Object.fromEntries('abcdefghijklmnopqrstuvwxyz'.split('').map(ch => [ch, ch + '\u0336'])),
-    ...Object.fromEntries('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(ch => [ch, ch + '\u0336']))
-  },
-  crazy: {
-    ...mapRange('a', 'z', i => String.fromCodePoint(0x1F130 + i)), // 🅐–🅩
-    ...mapRange('A', 'Z', i => String.fromCodePoint(0x1F130 + i))
-  },
-  tiny: {
-    ...mapRange('a', 'e', i => ['ᵃ','ᵇ','ᶜ','ᵈ','ᵉ'][i]),
-    'f': 'ᶠ', 'g': 'ᵍ', 'h': 'ʰ', 'i': 'ᶦ', 'j': 'ʲ', 'k': 'ᵏ', 'l': 'ˡ',
-    'm': 'ᵐ', 'n': 'ⁿ', 'o': 'ᵒ', 'p': 'ᵖ', 'q': '۹', 'r': 'ʳ', 's': 'ˢ',
-    't': 'ᵗ', 'u': 'ᵘ', 'v': 'ᵛ', 'w': 'ʷ', 'x': 'ˣ', 'y': 'ʸ', 'z': 'ᶻ',
-    ' ': ' '
-  }
-};
-
-// Helper: Create map from char range
+// Helper function — must be defined BEFORE use
 function mapRange(start, end, fn) {
   const map = {};
+  const base = start === 'a' ? 97 : 65; // 'a' = 97, 'A' = 65
   for (let i = 0; i < 26; i++) {
-    const ch = start === 'a' ? String.fromCharCode(97 + i) : String.fromCharCode(65 + i);
+    const ch = String.fromCharCode(base + i);
     map[ch] = fn(i);
   }
   return map;
 }
 
-// Identity map for normal (a-z and A-Z)
-function createIdentityMap(chars, isUpper = false) {
-  const map = {};
-  for (const ch of chars) {
-    map[ch.toLowerCase()] = isUpper ? ch.toUpperCase() : ch.toLowerCase();
+// Character mappings — now properly support uppercase variants
+const styleMappings = {
+  normal: {
+    ...Object.fromEntries('abcdefghijklmnopqrstuvwxyz'.split('').map(ch => [ch, ch])),
+    ...Object.fromEntries('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(ch => [ch, ch]))
+  },
+  bold: {
+    ...Object.fromEntries('abcdefghijklmnopqrstuvwxyz'.split('').map((ch, i) => [ch, String.fromCodePoint(0x1D41A + i)])), // 𝐚–𝐳
+    ...Object.fromEntries('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((ch, i) => [ch, String.fromCodePoint(0x1D400 + i)]))  // 𝐀–𝐙
+  },
+  italic: {
+    ...Object.fromEntries('abcdefghijklmnopqrstuvwxyz'.split('').map((ch, i) => [ch, String.fromCodePoint(0x1D48A + i)])), // 𝑎–𝑧
+    ...Object.fromEntries('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((ch, i) => [ch, String.fromCodePoint(0x1D470 + i)]))  // 𝐼–𝐾
+  },
+  bolditalic: {
+    ...mapRange('a', 'z', i => String.fromCodePoint(0x1D442 + i)), // 𝒂–𝒛
+    ...mapRange('A', 'Z', i => String.fromCodePoint(0x1D428 + i))  // 𝑨–𝒁
+  },
+  strikethrough: {
+    ...Object.fromEntries('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(ch => [ch, ch + '\u0336']))
+  },
+  crazy: {
+    ...Object.fromEntries('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((ch, i) => {
+      const code = 0x1F130 + (ch.toLowerCase().charCodeAt(0) - 97);
+      return [ch, String.fromCodePoint(code)];
+    }))
+  },
+  tiny: {
+    'a': 'ᵃ', 'b': 'ᵇ', 'c': 'ᶜ', 'd': 'ᵈ', 'e': 'ᵉ',
+    'f': 'ᶠ', 'g': 'ᵍ', 'h': 'ʰ', 'i': 'ᶦ', 'j': 'ʲ',
+    'k': 'ᵏ', 'l': 'ˡ', 'm': 'ᵐ', 'n': 'ⁿ', 'o': 'ᵒ',
+    'p': 'ᵖ', 'q': '۹', 'r': 'ʳ', 's': 'ˢ', 't': 'ᵗ',
+    'u': 'ᵘ', 'v': 'ᵛ', 'w': 'ʷ', 'x': 'ˣ', 'y': 'ʸ', 'z': 'ᶻ',
+    ' ': ' '
   }
-  return map;
-}
+};
 
 // State
 let currentStyle = 'normal';
 let isCaps = false;
 let isEmojiPanelVisible = false;
 
+// DOM Elements
 const output = document.getElementById('output');
 const keyboard = document.getElementById('keyboard');
 const tabs = document.querySelectorAll('.tab');
@@ -83,18 +82,17 @@ function renderKeyboard() {
       keyEl.className = 'key';
 
       if (key === ' ') keyEl.classList.add('space');
-      if (key === '⌫' || key === '⇪') keyEl.classList.add('backspace');
+      if (['⌫', '⇪'].includes(key)) keyEl.classList.add('backspace');
 
-      let displayChar, outputChar;
+      let displayChar = '';
+      let outputChar = null;
 
       if (key === '⇪') {
         displayChar = '⇪';
-        outputChar = null;
         keyEl.style.fontWeight = 'bold';
         if (isCaps) keyEl.style.backgroundColor = '#007bff';
       } else if (key === '⌫') {
         displayChar = '⌫';
-        outputChar = null;
       } else if (key === 'space') {
         displayChar = 'Space';
         outputChar = ' ';
@@ -102,12 +100,17 @@ function renderKeyboard() {
       } else {
         const lower = key.toLowerCase();
         const upper = key.toUpperCase();
-        if (isCaps && map[upper]) {
-          displayChar = map[upper];
+
+        if (isCaps && currentStyle !== 'tiny') {
+          displayChar = map[upper] || upper;
           outputChar = upper;
         } else {
           displayChar = map[lower] || lower;
           outputChar = lower;
+        }
+
+        if (currentStyle === 'normal') {
+          displayChar = isCaps ? upper : lower;
         }
       }
 
@@ -121,10 +124,17 @@ function renderKeyboard() {
           renderKeyboard();
         } else if (key === 'space') {
           output.value += ' ';
-        } else {
-          const insertChar = isCaps && map[outputChar] ? map[outputChar] : map[outputChar.toLowerCase()] || outputChar;
-          output.value += insertChar;
+        } else if (outputChar) {
+          let charToInsert;
+          if (currentStyle === 'tiny') {
+            charToInsert = map[outputChar] || outputChar;
+          } else {
+            const finalKey = isCaps ? outputChar.toUpperCase() : outputChar.toLowerCase();
+            charToInsert = map[finalKey] || finalKey;
+          }
+          output.value += charToInsert;
         }
+        output.focus();
       });
 
       rowDiv.appendChild(keyEl);
@@ -145,15 +155,15 @@ tabs.forEach(tab => {
   });
 });
 
-// Clear button
+// Clear
 clearBtn.addEventListener('click', () => {
   output.value = '';
   output.focus();
 });
 
-// Copy button
+// Copy
 copyBtn.addEventListener('click', () => {
-  if (output.value) {
+  if (output.value.trim()) {
     navigator.clipboard.writeText(output.value).then(() => {
       copyBtn.textContent = '✅ Copied!';
       copyBtn.classList.add('copied');
@@ -161,48 +171,45 @@ copyBtn.addEventListener('click', () => {
         copyBtn.textContent = '📋 Copy';
         copyBtn.classList.remove('copied');
       }, 2000);
-    }).catch(err => {
-      alert('Failed to copy: ', err);
-    });
+    }).catch(() => alert('Copy failed. Please copy manually.'));
   }
 });
 
-// Emoji button
+// Emoji toggle
 emojiBtn.addEventListener('click', () => {
   isEmojiPanelVisible = !isEmojiPanelVisible;
   emojiPanel.classList.toggle('active', isEmojiPanelVisible);
 });
 
-// Insert emoji from panel
+// Insert emoji
 emojiPanel.addEventListener('click', (e) => {
-  if (e.target.textContent.length === 1 || e.target.textContent.trim().length <= 2) {
-    const emoji = e.target.textContent.trim();
-    if (emoji) {
-      output.value += emoji;
-      output.focus();
-    }
+  const text = e.target.textContent.trim();
+  if (text.length > 0 && text.length <= 2) {
+    output.value += text;
+    output.focus();
   }
 });
 
-// Physical keyboard input (real keyboard)
+// Physical keyboard input
 output.addEventListener('keydown', (e) => {
-  if (e.ctrlKey || e.metaKey || e.altKey) return; // Ignore shortcuts
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
 
-  setTimeout(() => {
-    // Get what was just typed
-    const lastChar = output.value.slice(-1);
-    const code = lastChar.toLowerCase();
-    const isUpper = lastChar === lastChar.toUpperCase() && lastChar !== lastChar.toLowerCase();
+  if (e.key === 'Backspace') {
+    setTimeout(() => {
+      // Let default happen
+    }, 10);
+    return;
+  }
 
-    if (/[a-z]/i.test(lastChar)) {
-      e.preventDefault();
-      output.value = output.value.slice(0, -1); // Remove plain char
-
-      const map = styleMappings[currentStyle];
-      const styledChar = isUpper && map[lastChar] ? map[lastChar] : map[code] || lastChar;
-      output.value += styledChar;
-    }
-  }, 10);
+  if (/[a-zA-Z]/.test(e.key)) {
+    e.preventDefault();
+    const lower = e.key.toLowerCase();
+    const upper = e.key.toUpperCase();
+    const map = styleMappings[currentStyle];
+    const keyToUse = isCaps ? upper : lower;
+    const charToInsert = currentStyle === 'tiny' ? map[lower] || lower : map[keyToUse] || keyToUse;
+    output.value += charToInsert;
+  }
 });
 
 // Close emoji panel when clicking outside

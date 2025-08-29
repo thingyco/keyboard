@@ -156,3 +156,16 @@ h1 {
   transform: scale(1.02);
   transition: transform 0.2s;
 }
+
+.watermark-word {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 36px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.05);
+  pointer-events: none; /* Don't block clicks */
+  user-select: none;     /* Prevent text selection */
+  transform-origin: center;
+  z-index: 9999;
+}
