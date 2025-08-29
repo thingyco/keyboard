@@ -1,3 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stylish Online Keyboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Stylish Text Keyboard</h1>
+
+    <!-- Style Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-style="normal">Normal</button>
+      <button class="tab" data-style="bold">𝐁𝐨𝐥𝐝</button>
+      <button class="tab" data-style="italic">𝐼𝑡𝑎𝑙𝑖𝑐</button>
+      <button class="tab" data-style="strikethrough">S̶t̶r̶i̶k̶e̶</button>
+      <button class="tab" data-style="crazy">🅒🅡🅐🅨🅨</button>
+      <button class="tab" data-style="tiny">ᵗᶦⁿʸ</button>
+      <button class="tab" data-style="urdu">اردو</button>
+    </div>
+
+    <!-- Output Box -->
+  
 <!-- Output Box & Controls -->
 <div class="controls">
   <textarea id="output" placeholder="Type here..." spellcheck="false"></textarea>
@@ -20,3 +45,10 @@
     👍 👏 🎉 🎊 🎁 🌈 🌟 🎆 💥 🎈
   </div>
 </div>
+    <!-- Virtual Keyboard -->
+    <div id="keyboard"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

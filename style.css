@@ -1,3 +1,92 @@
+* { box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 16px;
+  border: none;
+  background: #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.tab.active {
+  background: #007bff;
+  color: white;
+}
+
+.tab:hover {
+  background: #ccc;
+}
+
+#output {
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  resize: none;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.key {
+  padding: 12px 10px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 40px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+}
+
+.key:hover {
+  background: #e9ecef;
+}
+
+.key.space {
+  width: 200px;
+}
+
+.key.backspace {
+  width: 80px;
+  font-size: 12px;
+}
 .controls {
   margin-bottom: 20px;
 }
