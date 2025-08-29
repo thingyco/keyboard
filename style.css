@@ -1,0 +1,69 @@
+.controls {
+  margin-bottom: 20px;
+}
+
+#output {
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  resize: none;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.actions button {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions button:hover {
+  background: #0056b3;
+}
+
+#copyBtn.copied {
+  background: #28a745;
+  pointer-events: none;
+}
+
+.emoji-panel {
+  display: none;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.emoji-panel.active {
+  display: block;
+}
+
+.emoji-row {
+  margin: 8px 0;
+  letter-spacing: 10px;
+}
+
+.emoji-row:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s;
+}
